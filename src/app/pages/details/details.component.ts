@@ -28,19 +28,19 @@ export class DetailsComponent implements OnInit {
     this.getPokemon;
   }
 
-  public getPokemon(){
+  get getPokemon(){
     const id = this.activatedRoute.snapshot.params['id'];
     const pokemon = this.pokeAPIService.apiGetPokemons(`${this.urlPokemon}/${id}`)
     const name = this.pokeAPIService.apiGetPokemons(`${this.urlName}/${id}`)
 
-    return forkJoin([pokemon, name]).subscribe(
-      res =>{
+    return forkJoin([pokemon, name]).subscribe({
+      next: (res) =>{
         this.pokemon = res;
         this.isLoading = true;
       },
-      error =>{
+      error: (error) =>{
         this.apiError = true;
       }
-    )
+    })
   };
 }
